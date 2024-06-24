@@ -5,17 +5,18 @@
  * @format
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 // import type {PropsWithChildren} from 'react';
- import {
-   SafeAreaView,
-//   ScrollView,
-   StatusBar,
-   StyleSheet,
-//   Text,
-   useColorScheme,
-//   View,
- } from 'react-native';
+import {
+  SafeAreaView,
+  //   ScrollView,
+  StatusBar,
+  StyleSheet,
+  //   Text,
+  useColorScheme,
+  //   View,
+  Keyboard,
+} from 'react-native';
 
 // import {
 //   Colors,
@@ -27,10 +28,10 @@ import React, {useEffect, useState} from 'react';
 import Header from './src/components/Header';
 import AppInput from './src/components/AppInput';
 import GazersList from './src/components/GazersList';
-import { getStarGazers } from './src/services';
+import {getStarGazers} from './src/services';
 import LoadingSkeleton from './src/components/LoadingSkeleton';
-
-
+import MessageScreen from './src/components/MessageScreen';
+import {NO_SEARCH, NO_OWNER, NO_REPO, NO_RESULT} from './src/constants';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -64,64 +65,102 @@ function Section({children, title}: SectionProps): React.JSX.Element {
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-
-const [starGazers, setStarGazers] = useState([])
-// this should be a ref
-const [nextUrl, setNextUrl] = useState(null)
-const [owner, setOwner] = useState('')
-const [repo, setRepo] = useState('')
-const [message, setMessage] = useState('')
-const [isLoading, setIsLoading] = useState(false)
-const [loadMoreIsLoading, setLoadMoreIsLoading] = useState(false)
-console.log({nextUrl})
+  const nextUrlRef = useRef(null);
+  const [starGazers, setStarGazers] = useState([]);
+  const [owner, setOwner] = useState('');
+  const [repo, setRepo] = useState('');
+  const [message, setMessage] = useState(NO_SEARCH);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadMoreIsLoading, setLoadMoreIsLoading] = useState(false);
   const backgroundStyle = {
-    flex:1,
-    backgroundColor: 'white'//isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1,
+    backgroundColor: 'white', //isDarkMode ? Colors.darker : Colors.lighter,
   };
-const fetchStarGazers = async () => {
-  setIsLoading(true)
-        const result = await getStarGazers({user:owner, repo:repo, url:null});
-        console.log({result})
-        if(typeof(result) === 'string'){
-          setMessage(result)
-        }   
-        else {
-          setMessage('')
-          setStarGazers(result.data)
-          setNextUrl(result.nextUrl)
-        }
-setIsLoading(false)
-}
-const fetchMoreStarGazers = async () => {
-  if(nextUrl){
-    setLoadMoreIsLoading(true)
-    const result = await getStarGazers({user:owner, repo:repo, url:nextUrl})
-    if(typeof(result) === 'string'){
-      setMessage(result)
-    }   
-    else {
-      setMessage('')
-      setStarGazers([...starGazers, ...result.data])
-      setNextUrl(result.nextUrl)
+  const fetchStarGazers = async () => {
+    setMessage('');
+    nextUrlRef.current = null;
+    setIsLoading(true);
+    const result = await getStarGazers({user: owner, repo: repo, url: null});
+    if (result?.data) {
+      setStarGazers(result.data);
+      nextUrlRef.current = result.nextUrl;
+    } else {
+      setMessage(NO_RESULT)
+      setStarGazers([]);
     }
-    console.log('logging more')
-    setLoadMoreIsLoading(false)
-    return
-  }
-console.log('no more to load')
-}
-const handleSearchStarGazers = () => {
- fetchStarGazers()
-}
+    setIsLoading(false);
+  };
+  const fetchMoreStarGazers = async () => {
+    if (nextUrlRef.current) {
+      setLoadMoreIsLoading(true);
+      const result = await getStarGazers({
+        user: owner,
+        repo: repo,
+        url: nextUrlRef.current,
+      });
+      if (typeof result === 'string') {
+        setMessage(result);
+      } else {
+        setMessage('');
+        setStarGazers([...starGazers, ...result.data]);
+        nextUrlRef.current = result.nextUrl;
+      }
+      console.log('logging more');
+      setLoadMoreIsLoading(false);
+      return;
+    }
+    console.log('no more to load');
+  };
+  const handleSearchStarGazers = () => {
+    Keyboard.dismiss();
+    if (!owner) {
+      return setMessage(NO_OWNER);
+    }
+    if (!repo) {
+      return setMessage(NO_REPO);
+    }
+    fetchStarGazers();
+  };
+  const renderContent = () => {
+    if (isLoading) {
+      return <LoadingSkeleton />;
+    }
+    if (message) {
+      return <MessageScreen message={message} />;
+    }
+    return (
+      <GazersList
+        gazers={starGazers}
+        loadMoreElements={() => fetchMoreStarGazers()}
+        loadMoreIsLoading={loadMoreIsLoading}
+      />
+    );
+  };
+
   return (
     <SafeAreaView style={backgroundStyle}>
-
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <Header onChangeRepo={text => setRepo(text)} onChangeOwner={text => setOwner(text)} onChangeRepo={text => setRepo(text)} onSearch={() => fetchStarGazers()}/>
-     {isLoading ?<LoadingSkeleton/>:<GazersList gazers={starGazers} message={message} loadMoreElements={() => fetchMoreStarGazers()} loadMoreIsLoading={loadMoreIsLoading}/>}
+      <Header
+        onChangeRepo={text => setRepo(text)}
+        onChangeOwner={text => setOwner(text)}
+        onChangeRepo={text => setRepo(text)}
+        onSearch={handleSearchStarGazers}
+        validSearch={owner && repo}
+      />
+      {renderContent()}
+      {/* {isLoading ? (
+        <LoadingSkeleton />
+      ) : (
+        <GazersList
+          gazers={starGazers}
+          message={message}
+          loadMoreElements={() => fetchMoreStarGazers()}
+          loadMoreIsLoading={loadMoreIsLoading}
+        />
+      )} */}
       {/* <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>

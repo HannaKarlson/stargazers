@@ -1,5 +1,5 @@
 export default colors = {
-    dark50:'#1818b',
+    dark50:'#18181b',
     dark100:'#27272a',
     dark200:'#3f3f46',
     dark300:'#52525b',
@@ -9,5 +9,7 @@ export default colors = {
     dark700:'#e4e4e7',
     dark800:'#f4f4f5',
     dark900:'#fafafa',
+    blue50:'#eff6ff',
+    blue100:'#dbeafe',
     blue500:'#3b82f6'
 }

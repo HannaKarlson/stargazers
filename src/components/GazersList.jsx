@@ -2,6 +2,7 @@ import React from 'react';
 import {FlatList, StyleSheet, Text, View, ActivityIndicator} from 'react-native';
 import Gazer from './Gazer';
 import MessageScreen from './MessageScreen';
+import EmptyList from './EmptyList';
 import colors from '../theme/colors';
 
 const mockedData = [{name: 'Hanna'}, {name: 'Mia'}, {name: 'Suffis'}];
@@ -15,7 +16,6 @@ const ListHeader = () => (
 );
 
 export default GazersList = ({gazers, message, loadMoreElements, loadMoreIsLoading}) => {
-  console.log('message in list', message)
 //put this is app component?
   if(message){
     return(
@@ -24,7 +24,7 @@ export default GazersList = ({gazers, message, loadMoreElements, loadMoreIsLoadi
   }
   return (
     <FlatList
-    style={{flex:1, padding:10}}
+    style={{flex:1, padding:20}}
     contentContainerStyle={{paddingBottom:50}}
       data={gazers}
       keyExtractor={item => item.id}
@@ -33,6 +33,7 @@ export default GazersList = ({gazers, message, loadMoreElements, loadMoreIsLoadi
       ListHeaderComponent={ListHeader}
       onEndReachedThreshold={0.1}
       onEndReached={loadMoreElements}
+      showsVerticalScrollIndicator={false}
       ListFooterComponent={() => {
           if (loadMoreIsLoading) {
             return (
@@ -43,16 +44,17 @@ export default GazersList = ({gazers, message, loadMoreElements, loadMoreIsLoadi
           }
           return null;
         }}
+        ListEmptyComponent={EmptyList}
     />
   );
 };
 
 const styles = StyleSheet.create({
   headerContainer: {
-    margin: 10,
+    marginBottom: 10,
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: '600',
     color: colors.dark100,
   },

@@ -1,11 +1,15 @@
 import React from 'react'
 import {View, Text, StyleSheet} from 'react-native'
+import { getMessageText } from '../utils'
+import colors from '../theme/colors'
 
-export default MessageScreen = () => {
+export default MessageScreen = ({message}) => {
+    console.log({message})
+    const {header, text} = getMessageText(message)
     return(
         <View style={styles.container}>
-            <Text style={styles.header}>Network error</Text>
-            <Text style={styles.message}>The stargazers could not be fetched. Try checking your internet connection.</Text>
+            <Text style={styles.header}>{header}</Text>
+            <Text style={styles.text}>{text}</Text>
         </View>
     )
 }
@@ -17,9 +21,12 @@ const styles = StyleSheet.create({
     },
     header:{
         fontSize:24,
-        fontWeight:'600'
+        fontWeight:'600',
+        color: colors.dark50
     },
-    message:{
-        marginTop:20
+    text:{
+        marginTop:20,
+        fontSize:18,
+        color: colors.dark50
     }
 })
