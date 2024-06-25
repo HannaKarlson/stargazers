@@ -2,7 +2,7 @@ import {BASE_URL} from 'react-native-dotenv';
 import axios from 'axios';
 import {nextPattern} from './constants';
 import {
-  NO_REPO,
+  NO_RESULT,
   API_RATE_EXCEEDED,
   GENERIC_ERROR,
   NETWORK_ERROR,
@@ -12,7 +12,7 @@ const switchErrorStatus = status => {
   console.log(status);
   switch (status) {
     case 404:
-      return NO_REPO;
+      return NO_RESULT;
     case 403:
       return API_RATE_EXCEEDED;
     default:

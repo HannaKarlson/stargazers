@@ -153,7 +153,7 @@ function App(): React.JSX.Element {
       />
     );
   };
-
+console.log({repo})
   return (
     <ThemeContext.Provider value={colorScheme}>
       <SafeAreaView style={backgroundStyle}>
@@ -191,10 +191,9 @@ const styles = StyleSheet.create({
   highlight: {
     fontWeight: '700',
   },
-  container: {
+  messageScreenContainer: {
     flex: 1,
-    padding: 20,
-  },
+  }
 });
 
 export default App;

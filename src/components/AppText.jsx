@@ -20,10 +20,10 @@ export const AppHeader = ({children}) => {
 const styles = StyleSheet.create({
     header:{
         fontSize:24,
-        fontWeight:'600',
+        fontWeight:'700',
     },
     text:{
-       // marginTop:20,
         fontSize:18,
+        fontWeight:'400',
     }
 })
