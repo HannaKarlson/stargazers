@@ -1,12 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { AppText } from './AppText';
 import colors from '../theme/colors';
 
 export default Gazer = ({item}) => (
   <View style={styles.container}>
     <FastImage style={styles.avatar} source={{uri: item.avatar_url}} />
-    <Text style={styles.text}>{item.login}</Text>
+    <AppText style={styles.text}>{item.login}</AppText>
   </View>
 );
 
@@ -23,7 +24,5 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: 10,
-    color: colors.dark50,
-    fontSize: 18,
   },
 });

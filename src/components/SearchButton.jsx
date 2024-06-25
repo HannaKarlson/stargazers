@@ -1,24 +1,34 @@
-import React from 'react'
-import { TouchableOpacity, View, StyleSheet} from 'react-native'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass'
-import colors from '../theme/colors'
+import React, {useContext} from 'react';
+import {TouchableOpacity, View, StyleSheet} from 'react-native';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass';
+import colors from '../theme/colors';
+import { ThemeContext } from '../../App';
+import { getThemeColors } from '../utils';
 
-export default SearchButton = ({onPress, validSearch}) => (
-    <TouchableOpacity onPress={onPress} style={[styles.button, validSearch && {backgroundColor:colors.blue500}]}>
-<FontAwesomeIcon icon={faMagnifyingGlass} color={validSearch?'white':colors.dark400}/>
-</TouchableOpacity>
-)
+export default SearchButton = ({onPress, validSearch}) => {
+    const colorMode = useContext(ThemeContext)
+    const {buttonColor, iconColor} = getThemeColors(colorMode)
+    const backgroundColor = validSearch?colors.blue500:buttonColor
+    const searchIconColor = validSearch?colors.white:iconColor
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.button, {backgroundColor:backgroundColor}]}>
+      <FontAwesomeIcon
+        icon={faMagnifyingGlass}
+        color={searchIconColor}
+      />
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
-    button:{
-        backgroundColor:colors.dark800,
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius:10,
-        height:50,
-        width:50,
-      //  borderWidth:2,
-      //  borderColor:colors.dark400
-    }
-})
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    height: 50,
+    width: 50,
+  },
+});

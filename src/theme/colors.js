@@ -1,4 +1,5 @@
 export default colors = {
+    white:'#FFFFFF',
     dark50:'#18181b',
     dark100:'#27272a',
     dark200:'#3f3f46',

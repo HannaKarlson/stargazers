@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, StyleSheet, TouchableHighlight} from 'react-native';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faUser} from '@fortawesome/free-solid-svg-icons/faUser';
 import {faFolder} from '@fortawesome/free-solid-svg-icons/faFolder';
+import { ThemeContext } from '../../App';
 import AppInput from './AppInput';
 import SearchButton from './SearchButton';
 import colors from '../theme/colors';
@@ -14,6 +15,8 @@ export default Header = ({
   onSearch,
   validSearch,
 }) => {
+ const colorMode = useContext(ThemeContext)
+ console.log({colorMode})
   return (
     <View style={styles.container}>
       <AppInput
@@ -38,6 +41,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     height: 50,
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
   },
 });

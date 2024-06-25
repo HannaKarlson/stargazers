@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, createContext} from 'react';
 // import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -14,7 +14,7 @@ import {
   StyleSheet,
   //   Text,
   useColorScheme,
-  //   View,
+  View,
   Keyboard,
 } from 'react-native';
 
@@ -32,6 +32,7 @@ import {getStarGazers} from './src/services';
 import LoadingSkeleton from './src/components/LoadingSkeleton';
 import MessageScreen from './src/components/MessageScreen';
 import {NO_SEARCH, NO_OWNER, NO_REPO, NO_RESULT} from './src/constants';
+import colors from './src/theme/colors';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -45,7 +46,7 @@ function Section({children, title}: SectionProps): React.JSX.Element {
         style={[
           styles.sectionTitle,
           {
-            color: isDarkMode ? Colors.white : Colors.black,
+            color: isDarkMode ? 'green' : 'red',
           },
         ]}>
         {title}
@@ -62,9 +63,11 @@ function Section({children, title}: SectionProps): React.JSX.Element {
     </View>
   );
 }
+export const ThemeContext = createContext<ColorScheme>('light');
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const colorScheme = useColorScheme() || 'light';
+  const isDarkMode = colorScheme === 'dark';
   const nextUrlRef = useRef(null);
   const [starGazers, setStarGazers] = useState([]);
   const [owner, setOwner] = useState('');
@@ -74,21 +77,27 @@ function App(): React.JSX.Element {
   const [loadMoreIsLoading, setLoadMoreIsLoading] = useState(false);
   const backgroundStyle = {
     flex: 1,
-    backgroundColor: 'white', //isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: isDarkMode ? colors.dark50 : colors.white,
   };
   const fetchStarGazers = async () => {
     setMessage('');
     nextUrlRef.current = null;
     setIsLoading(true);
-    const result = await getStarGazers({user: owner, repo: repo, url: null});
-    if (result?.data) {
-      setStarGazers(result.data);
-      nextUrlRef.current = result.nextUrl;
-    } else {
-      setMessage(NO_RESULT)
+    try {
+      const result = await getStarGazers({user: owner, repo: repo, url: null});
+      if (result?.data) {
+        setStarGazers(result.data);
+        nextUrlRef.current = result.nextUrl;
+      } else {
+        setMessage(NO_RESULT);
+        setStarGazers([]);
+      }
+    } catch (e) {
+      setMessage(e);
       setStarGazers([]);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
   const fetchMoreStarGazers = async () => {
     if (nextUrlRef.current) {
@@ -123,10 +132,18 @@ function App(): React.JSX.Element {
   };
   const renderContent = () => {
     if (isLoading) {
-      return <LoadingSkeleton />;
+      return (
+        <View style={styles.container}>
+          <LoadingSkeleton />
+        </View>
+      );
     }
     if (message) {
-      return <MessageScreen message={message} />;
+      return (
+        <View style={styles.container}>
+          <MessageScreen message={message} />
+        </View>
+      );
     }
     return (
       <GazersList
@@ -138,53 +155,22 @@ function App(): React.JSX.Element {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <Header
-        onChangeRepo={text => setRepo(text)}
-        onChangeOwner={text => setOwner(text)}
-        onChangeRepo={text => setRepo(text)}
-        onSearch={handleSearchStarGazers}
-        validSearch={owner && repo}
-      />
-      {renderContent()}
-      {/* {isLoading ? (
-        <LoadingSkeleton />
-      ) : (
-        <GazersList
-          gazers={starGazers}
-          message={message}
-          loadMoreElements={() => fetchMoreStarGazers()}
-          loadMoreIsLoading={loadMoreIsLoading}
+    <ThemeContext.Provider value={colorScheme}>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
         />
-      )} */}
-      {/* <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView> */}
-    </SafeAreaView>
+        <Header
+          onChangeRepo={text => setRepo(text)}
+          onChangeOwner={text => setOwner(text)}
+          onChangeRepo={text => setRepo(text)}
+          onSearch={handleSearchStarGazers}
+          validSearch={owner && repo}
+        />
+        {renderContent()}
+      </SafeAreaView>
+    </ThemeContext.Provider>
   );
 }
 
@@ -204,6 +190,10 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  container: {
+    flex: 1,
+    padding: 20,
   },
 });
 

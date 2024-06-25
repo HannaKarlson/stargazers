@@ -52,7 +52,7 @@ export default LoadingSkeleton = () => {
     animateElement();
   }, []);
     return(
-    <View style={{flex:1, padding:20}}>
+    <>
         <Animated.View style={[{backgroundColor:colors.dark500, width:150, height:24, borderRadius:10, marginBottom:10}, opacityStyle]}/>
         <View style={{flexDirection:'row', width:'100%', alignItems:'center', marginTop:10}}>
             <Animated.View style={[{backgroundColor:colors.dark500, height:50, width:50, borderRadius:25, marginRight:10}, opacityStyle]}/>
@@ -66,7 +66,7 @@ export default LoadingSkeleton = () => {
             <Animated.View style={[{backgroundColor:colors.dark500, height:50, width:50, borderRadius:25, marginRight:10}, opacityStyle]}/>
             <Animated.View style={[{backgroundColor:colors.dark500, height:10, width:110, borderRadius:5}, opacityStyle]}/>
         </View>
-    </View>
+    </>
 )}
 
 

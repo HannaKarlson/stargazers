@@ -3,6 +3,7 @@ import {FlatList, StyleSheet, Text, View, ActivityIndicator} from 'react-native'
 import Gazer from './Gazer';
 import MessageScreen from './MessageScreen';
 import EmptyList from './EmptyList';
+import { AppHeader } from './AppText';
 import colors from '../theme/colors';
 
 const mockedData = [{name: 'Hanna'}, {name: 'Mia'}, {name: 'Suffis'}];
@@ -11,7 +12,7 @@ const ItemSeparator = () => <View style={{height: 10}} />;
 
 const ListHeader = () => (
 <View style={styles.headerContainer}> 
-  <Text style={styles.headerText}>Stargazers</Text>
+  <AppHeader>Stargazers</AppHeader>
 </View>
 );
 
