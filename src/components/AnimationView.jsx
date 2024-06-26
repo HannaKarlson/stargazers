@@ -4,13 +4,19 @@ import LottieView from 'lottie-react-native';
 
 const deviceWidth = Dimensions.get('window').width;
 
-export default AnimationView = ({animation}) => (
-  <View style={{flex:1, alignItems:'center'}}>
+const AnimationView = ({animation}) => (
+  <View style={styles.container}>
     <LottieView style={styles.lottieView} source={animation} autoPlay loop />
   </View>
 );
 
+export default AnimationView;
+
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+  },
   lottieView: {
     height: deviceWidth,
     width: deviceWidth,

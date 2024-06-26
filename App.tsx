@@ -1,32 +1,13 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React, {useEffect, useState, useRef, createContext} from 'react';
-// import type {PropsWithChildren} from 'react';
+import React, {useState, useRef, createContext} from 'react';
 import {
   SafeAreaView,
-  //   ScrollView,
   StatusBar,
   StyleSheet,
-  //   Text,
   useColorScheme,
   View,
   Keyboard,
 } from 'react-native';
-
-// import {
-//   Colors,
-//   DebugInstructions,
-//   //Header,
-//   LearnMoreLinks,
-//   ReloadInstructions,
-// } from 'react-native/Libraries/NewAppScreen';
 import Header from './src/components/Header';
-import AppInput from './src/components/AppInput';
 import GazersList from './src/components/GazersList';
 import {getStarGazers} from './src/services';
 import LoadingSkeleton from './src/components/LoadingSkeleton';
@@ -34,38 +15,9 @@ import MessageScreen from './src/components/MessageScreen';
 import {NO_SEARCH, NO_OWNER, NO_REPO, NO_RESULT} from './src/constants';
 import colors from './src/theme/colors';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? 'green' : 'red',
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
 export const ThemeContext = createContext<ColorScheme>('light');
 
-function App(): React.JSX.Element {
+const App = () => {
   const colorScheme = useColorScheme() || 'light';
   const isDarkMode = colorScheme === 'dark';
   const nextUrlRef = useRef(null);
@@ -114,11 +66,9 @@ function App(): React.JSX.Element {
         setStarGazers([...starGazers, ...result.data]);
         nextUrlRef.current = result.nextUrl;
       }
-      console.log('logging more');
       setLoadMoreIsLoading(false);
       return;
     }
-    console.log('no more to load');
   };
   const handleSearchStarGazers = () => {
     Keyboard.dismiss();
@@ -153,7 +103,7 @@ function App(): React.JSX.Element {
       />
     );
   };
-console.log({repo})
+  console.log({repo});
   return (
     <ThemeContext.Provider value={colorScheme}>
       <SafeAreaView style={backgroundStyle}>
@@ -164,7 +114,6 @@ console.log({repo})
         <Header
           onChangeRepo={text => setRepo(text)}
           onChangeOwner={text => setOwner(text)}
-          onChangeRepo={text => setRepo(text)}
           onSearch={handleSearchStarGazers}
           validSearch={owner && repo}
         />
@@ -172,7 +121,7 @@ console.log({repo})
       </SafeAreaView>
     </ThemeContext.Provider>
   );
-}
+};
 
 const styles = StyleSheet.create({
   sectionContainer: {
@@ -193,7 +142,7 @@ const styles = StyleSheet.create({
   },
   messageScreenContainer: {
     flex: 1,
-  }
+  },
 });
 
 export default App;

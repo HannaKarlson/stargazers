@@ -26,7 +26,7 @@ export const getStarGazers = async ({user, repo, url}) => {
   try {
     const response = await axios.get(composedString);
     const linkHeader = response.headers.link;
-    if (linkHeader && linkHeader.includes(`rel=\"next\"`) && response.data) {
+    if (linkHeader && linkHeader.includes('rel="next"') && response.data) {
       nextUrl = linkHeader.match(nextPattern)[0];
       return {data: response.data, nextUrl: nextUrl};
     }

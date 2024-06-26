@@ -1,9 +1,9 @@
-export const NO_SEARCH = 'no seach'
-export const NO_OWNER = 'no owner'
-export const NO_REPO = 'no repo'
-export const NO_RESULT = 'no result'
-export const API_RATE_EXCEEDED = 'api rate exceeded'
-export const NETWORK_ERROR = 'network error'
-export const GENERIC_ERROR = 'error'
+export const NO_SEARCH = 'no seach';
+export const NO_OWNER = 'no owner';
+export const NO_REPO = 'no repo';
+export const NO_RESULT = 'no result';
+export const API_RATE_EXCEEDED = 'api rate exceeded';
+export const NETWORK_ERROR = 'network error';
+export const GENERIC_ERROR = 'error';
 
 export const nextPattern = /(?<=<)([\S]*)(?=>; rel="next")/i;
