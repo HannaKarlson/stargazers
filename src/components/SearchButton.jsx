@@ -3,7 +3,7 @@ import {TouchableOpacity, StyleSheet} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass';
 import colors from '../theme/colors';
-import {ThemeContext} from '../../App';
+import {ThemeContext} from '../contexts/ThemeContext';
 import {getThemeColors} from '../utils';
 
 const SearchButton = ({onPress, validSearch}) => {

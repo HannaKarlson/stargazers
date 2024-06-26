@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {TextInput, View, StyleSheet} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {ThemeContext} from '../../App';
+import {ThemeContext} from '../contexts/ThemeContext';
 import {getThemeColors} from '../utils';
 // trim input
 

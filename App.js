@@ -1,4 +1,4 @@
-import React, {useState, useRef, createContext} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -14,8 +14,7 @@ import LoadingSkeleton from './src/components/LoadingSkeleton';
 import MessageScreen from './src/components/MessageScreen';
 import {NO_SEARCH, NO_OWNER, NO_REPO, NO_RESULT} from './src/constants';
 import colors from './src/theme/colors';
-
-export const ThemeContext = createContext<ColorScheme>('light');
+import {ThemeContext} from './src/contexts/ThemeContext';
 
 const App = () => {
   const colorScheme = useColorScheme() || 'light';

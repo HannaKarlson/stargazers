@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {faUser} from '@fortawesome/free-solid-svg-icons/faUser';
 import {faFolder} from '@fortawesome/free-solid-svg-icons/faFolder';
-import {ThemeContext} from '../../App';
+import {ThemeContext} from '../contexts/ThemeContext';
 import AppInput from './AppInput';
 import SearchButton from './SearchButton';
 
