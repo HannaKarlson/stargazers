@@ -40,19 +40,21 @@ const App = () => {
     backgroundColor: isDarkMode ? colors.dark50 : colors.white,
   };
   const handleOwnerChange = text => {
-    if (owner.error) {
+    //check that text !== ownerRef.current to avoid call onBlur ios
+    if (owner.error && text !== ownerRef.current) {
       setOwner({...owner, error: false});
     }
     if (!owner.present && text !== '') {
       setOwner({...owner, present: true});
     }
-    if (text === '' && owner) {
+    if (text === '' && owner.error) {
       setOwner({present: false, error: false});
     }
     ownerRef.current = text.trim();
   };
   const handleRepoChange = text => {
-    if (repo.error) {
+    //check that text !== repoRef.current to avoid call onBlur ios
+    if (repo.error && text !== repoRef.current) {
       setRepo({...repo, error: false});
     }
     if (!repo.present && text !== '') {
@@ -111,34 +113,26 @@ const App = () => {
     if (!owner.present && !repo.present) {
       setOwner({present: false, error: true});
       setRepo({present: false, error: true});
-      setMessage(NO_OWNER);
-      return;
+      return setMessage(NO_OWNER);
     }
     if (!owner.present) {
       setOwner({present: false, error: true});
-      setMessage(NO_OWNER);
-      return;
+      return setMessage(NO_OWNER);
     }
     if (!repo.present) {
       setRepo({present: false, error: true});
-      setMessage(NO_REPO);
-      return;
+      return setMessage(NO_REPO);
     }
     if (!/^[A-Za-z0-9._/-]+$/.test(ownerRef?.current)) {
       setOwner({...owner, error: true});
-      return setMessage(SPELLING_ERROR_OWNER);
+      setMessage(SPELLING_ERROR_OWNER);
+      return;
     }
     if (!/^[A-Za-z0-9._/-]+$/.test(repoRef?.current)) {
       setRepo({...repo, error: true});
-      return setMessage(SPELLING_ERROR_REPO);
+      setMessage(SPELLING_ERROR_REPO);
+      return;
     }
-    // owner of repo contains chars not allowed by Github
-    // if (
-    //   !/^[A-Za-z0-9._/-]+$/.test(ownerRef?.current) ||
-    //   !/^[A-Za-z0-9._/-]+$/.test(repoRef?.current)
-    // ) {
-    //   return setMessage(SPELLING_ERROR);
-    // }
     fetchStarGazers();
   };
   const renderContent = () => {
