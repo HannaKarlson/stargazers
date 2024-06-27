@@ -61,7 +61,7 @@ describe('getMessageContent', () => {
   it('should return correct message content when there is a spelling error in user name', () => {
     const expected = {
       header: 'Spelling error',
-      text: 'It seems that you have used a character that is not allowed for github account names. Allowed charachters are letters(a-Z), numbers, dash(-), underscore(_) and dot(.)',
+      text: 'It seems that you have used a character that is not allowed for github account names. Allowed charachters are letters(a-Z), numbers and dash(-)',
       animation: typo,
     };
     expect(getMessageContent(constants.SPELLING_ERROR_OWNER)).toEqual(expected);

@@ -19,6 +19,8 @@ import {
   NO_RESULT,
   SPELLING_ERROR_REPO,
   SPELLING_ERROR_OWNER,
+  REPO_REGEX,
+  USER_REGEX,
 } from './src/constants';
 import colors from './src/theme/colors';
 import {ThemeContext} from './src/contexts/ThemeContext';
@@ -40,27 +42,25 @@ const App = () => {
     backgroundColor: isDarkMode ? colors.dark50 : colors.white,
   };
   const handleOwnerChange = text => {
-    //check that text !== ownerRef.current to avoid call onBlur ios
-    if (owner.error && text !== ownerRef.current) {
-      setOwner({...owner, error: false});
+    if (owner.error) {
+      setOwner({present: owner.present, error: false});
     }
     if (!owner.present && text !== '') {
-      setOwner({...owner, present: true});
+      setOwner({present: true, error: owner.error});
     }
-    if (text === '' && owner.error) {
+    if (text === '' && ownerRef.current !== '') {
       setOwner({present: false, error: false});
     }
     ownerRef.current = text.trim();
   };
   const handleRepoChange = text => {
-    //check that text !== repoRef.current to avoid call onBlur ios
-    if (repo.error && text !== repoRef.current) {
+    if (repo.error) {
       setRepo({...repo, error: false});
     }
     if (!repo.present && text !== '') {
       setRepo({...repo, present: true});
     }
-    if (text === '' && repo.error) {
+    if (text === '' && ownerRef.current !== '') {
       setRepo({present: false, error: false});
     }
     repoRef.current = text.trim();
@@ -123,12 +123,12 @@ const App = () => {
       setRepo({present: false, error: true});
       return setMessage(NO_REPO);
     }
-    if (!/^[A-Za-z0-9._/-]+$/.test(ownerRef?.current)) {
+    if (!USER_REGEX.test(ownerRef?.current)) {
       setOwner({...owner, error: true});
       setMessage(SPELLING_ERROR_OWNER);
       return;
     }
-    if (!/^[A-Za-z0-9._/-]+$/.test(repoRef?.current)) {
+    if (!REPO_REGEX.test(repoRef?.current)) {
       setRepo({...repo, error: true});
       setMessage(SPELLING_ERROR_REPO);
       return;

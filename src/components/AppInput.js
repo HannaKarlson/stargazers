@@ -26,7 +26,7 @@ const AppInput = ({icon, error, ...props}) => {
         placeholderTextColor={iconColor}
         showSoftInputOnFocus={true}
         autoCorrect={false}
-        autoComplete={false}
+        autoComplete="off"
       />
     </View>
   );

@@ -9,3 +9,5 @@ export const SPELLING_ERROR_REPO = 'spelling error repo';
 export const GENERIC_ERROR = 'error';
 export const nextString = 'rel="next"';
 export const nextPattern = /(?<=<)([\S]*)(?=>; rel="next")/i;
+export const REPO_REGEX = /^[A-Za-z0-9._/-]+$/;
+export const USER_REGEX = /^[A-Za-z0-9/-]+$/;
