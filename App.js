@@ -29,8 +29,8 @@ const App = () => {
   const ownerRef = useRef('');
   const repoRef = useRef('');
   const [starGazers, setStarGazers] = useState([]);
-  const [owner, setOwner] = useState(false);
-  const [repo, setRepo] = useState(false);
+  const [owner, setOwner] = useState({present: false, error: false});
+  const [repo, setRepo] = useState({present: false, error: false});
   const [message, setMessage] = useState(NO_SEARCH);
   const [isLoading, setIsLoading] = useState(false);
   const [loadMoreIsLoading, setLoadMoreIsLoading] = useState(false);
@@ -39,22 +39,28 @@ const App = () => {
     backgroundColor: isDarkMode ? colors.dark50 : colors.white,
   };
   const handleOwnerChange = text => {
-    if (!owner && text !== '') {
-      setOwner(true);
+    if (owner.error) {
+      setOwner({...owner, error: false});
+    }
+    if (!owner.present && text !== '') {
+      setOwner({...owner, present: true});
     }
     if (text === '' && owner) {
-      setOwner(false);
+      setOwner({present: false, error: false});
     }
-    ownerRef.current = text;
+    ownerRef.current = text.trim();
   };
   const handleRepoChange = text => {
-    if (!repo && text !== '') {
-      setRepo(true);
+    if (repo.error) {
+      setRepo({...repo, error: false});
     }
-    if (text === '' && repo) {
-      setRepo(false);
+    if (!repo.present && text !== '') {
+      setRepo({...repo, present: true});
     }
-    repoRef.current = text;
+    if (text === '' && repo.error) {
+      setRepo({present: false, error: false});
+    }
+    repoRef.current = text.trim();
   };
   const fetchStarGazers = async () => {
     setMessage('');
@@ -101,19 +107,27 @@ const App = () => {
   };
   const handleSearchStarGazers = () => {
     Keyboard.dismiss();
-    if (!owner) {
+    if (!owner.present) {
       return setMessage(NO_OWNER);
     }
-    if (!repo) {
+    if (!repo.present) {
       return setMessage(NO_REPO);
     }
-    // owner of repo contains chars not allowed by Github
-    if (
-      !/^[A-Za-z0-9._/-]+$/.test(ownerRef?.current) ||
-      !/^[A-Za-z0-9._/-]+$/.test(repoRef?.current)
-    ) {
+    if (!/^[A-Za-z0-9._/-]+$/.test(ownerRef?.current)) {
+      setOwner({...owner, error: true});
       return setMessage(SPELLING_ERROR);
     }
+    if (!/^[A-Za-z0-9._/-]+$/.test(repoRef?.current)) {
+      setRepo({...repo, error: true});
+      return setMessage(SPELLING_ERROR);
+    }
+    // owner of repo contains chars not allowed by Github
+    // if (
+    //   !/^[A-Za-z0-9._/-]+$/.test(ownerRef?.current) ||
+    //   !/^[A-Za-z0-9._/-]+$/.test(repoRef?.current)
+    // ) {
+    //   return setMessage(SPELLING_ERROR);
+    // }
     fetchStarGazers();
   };
   const renderContent = () => {
@@ -151,6 +165,7 @@ const App = () => {
           onChangeOwner={text => handleOwnerChange(text)}
           onSearch={handleSearchStarGazers}
           validSearch={owner && repo}
+          error={{ownerError: owner.error, repoError: repo.error}}
         />
         {renderContent()}
       </SafeAreaView>

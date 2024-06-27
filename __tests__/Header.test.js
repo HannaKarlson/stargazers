@@ -7,6 +7,7 @@ const props = {
   onChangeRepo: jest.fn(),
   onSearch: jest.fn(),
   validSearch: jest.fn(),
+  error: {ownerError: false, repoError: false},
 };
 
 describe('Header', () => {

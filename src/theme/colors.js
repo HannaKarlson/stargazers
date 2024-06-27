@@ -13,4 +13,5 @@ export default {
   blue50: '#eff6ff',
   blue100: '#dbeafe',
   blue500: '#3b82f6',
+  error: '#cc0000',
 };

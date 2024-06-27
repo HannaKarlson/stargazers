@@ -5,7 +5,14 @@ import {faFolder} from '@fortawesome/free-solid-svg-icons/faFolder';
 import AppInput from './AppInput';
 import SearchButton from './SearchButton';
 
-const Header = ({onChangeOwner, onChangeRepo, onSearch, validSearch}) => {
+const Header = ({
+  onChangeOwner,
+  onChangeRepo,
+  onSearch,
+  validSearch,
+  error,
+}) => {
+  const {ownerError, repoError} = error;
   return (
     <View testID="header" style={styles.container}>
       <AppInput
@@ -14,6 +21,7 @@ const Header = ({onChangeOwner, onChangeRepo, onSearch, validSearch}) => {
         maxLength={39}
         onChangeText={text => onChangeOwner(text)}
         placeholder="Owner"
+        error={ownerError}
       />
       <AppInput
         autoCapitalize="none"
@@ -21,6 +29,7 @@ const Header = ({onChangeOwner, onChangeRepo, onSearch, validSearch}) => {
         maxLength={250}
         placeholder="Repository"
         onChangeText={text => onChangeRepo(text)}
+        error={repoError}
       />
       <SearchButton onPress={onSearch} validSearch={validSearch} />
     </View>

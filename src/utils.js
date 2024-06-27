@@ -29,7 +29,7 @@ export const getMessageContent = message => {
     case SPELLING_ERROR: {
       return {
         header: 'Spelling error',
-        text: 'It seems that you have used a character that is not allowed for github repos. Allowed charachters are alphanumerics, dash(-), underscore(_) and dot(.)',
+        text: 'It seems that you have used a character that is not allowed for github repos. Allowed charachters are letters(a-Z), numbers, dash(-), underscore(_) and dot(.)',
         animation: typo,
       };
     }
