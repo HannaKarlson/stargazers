@@ -20,9 +20,11 @@ const App = () => {
   const colorScheme = useColorScheme() || 'light';
   const isDarkMode = colorScheme === 'dark';
   const nextUrlRef = useRef(null);
+  const ownerRef = useRef('');
+  const repoRef = useRef('');
   const [starGazers, setStarGazers] = useState([]);
-  const [owner, setOwner] = useState('');
-  const [repo, setRepo] = useState('');
+  const [owner, setOwner] = useState(false);
+  const [repo, setRepo] = useState(false);
   const [message, setMessage] = useState(NO_SEARCH);
   const [isLoading, setIsLoading] = useState(false);
   const [loadMoreIsLoading, setLoadMoreIsLoading] = useState(false);
@@ -30,12 +32,34 @@ const App = () => {
     flex: 1,
     backgroundColor: isDarkMode ? colors.dark50 : colors.white,
   };
+  const handleOwnerChange = text => {
+    if (!owner && text !== '') {
+      setOwner(true);
+    }
+    if (text === '' && owner) {
+      setOwner(false);
+    }
+    ownerRef.current = text;
+  };
+  const handleRepoChange = text => {
+    if (!repo && text !== '') {
+      setRepo(true);
+    }
+    if (text === '' && repo) {
+      setRepo(false);
+    }
+    repoRef.current = text;
+  };
   const fetchStarGazers = async () => {
     setMessage('');
     nextUrlRef.current = null;
     setIsLoading(true);
     try {
-      const result = await getStarGazers({user: owner, repo: repo, url: null});
+      const result = await getStarGazers({
+        user: ownerRef.current,
+        repo: repoRef.current,
+        url: null,
+      });
       if (result?.data) {
         setStarGazers(result.data);
         nextUrlRef.current = result.nextUrl;
@@ -77,6 +101,13 @@ const App = () => {
     if (!repo) {
       return setMessage(NO_REPO);
     }
+    // owner of repo contains chars not allowed by Github
+    if (
+      !/^[A-Za-z0-9._/-]+$/.test(ownerRef?.current) ||
+      !/^[A-Za-z0-9._/-]+$/.test(repoRef?.current)
+    ) {
+      return setMessage(NO_RESULT);
+    }
     fetchStarGazers();
   };
   const renderContent = () => {
@@ -110,8 +141,8 @@ const App = () => {
           backgroundColor={backgroundStyle.backgroundColor}
         />
         <Header
-          onChangeRepo={text => setRepo(text)}
-          onChangeOwner={text => setOwner(text)}
+          onChangeRepo={text => handleRepoChange(text)}
+          onChangeOwner={text => handleOwnerChange(text)}
           onSearch={handleSearchStarGazers}
           validSearch={owner && repo}
         />
