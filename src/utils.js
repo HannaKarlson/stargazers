@@ -5,7 +5,8 @@ import {
   NO_RESULT,
   API_RATE_EXCEEDED,
   NETWORK_ERROR,
-  SPELLING_ERROR,
+  SPELLING_ERROR_OWNER,
+  SPELLING_ERROR_REPO,
   GENERIC_ERROR,
 } from './constants';
 import colors from './theme/colors';
@@ -26,10 +27,17 @@ export const getMessageContent = message => {
         animation: welcome,
       };
     }
-    case SPELLING_ERROR: {
+    case SPELLING_ERROR_REPO: {
       return {
         header: 'Spelling error',
-        text: 'It seems that you have used a character that is not allowed for github repos. Allowed charachters are letters(a-Z), numbers, dash(-), underscore(_) and dot(.)',
+        text: 'It seems that you have used a character that is not allowed for github repository names. Allowed charachters are letters(a-Z), numbers, dash(-), underscore(_) and dot(.)',
+        animation: typo,
+      };
+    }
+    case SPELLING_ERROR_OWNER: {
+      return {
+        header: 'Spelling error',
+        text: 'It seems that you have used a character that is not allowed for github account names. Allowed charachters are letters(a-Z), numbers, dash(-), underscore(_) and dot(.)',
         animation: typo,
       };
     }

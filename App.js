@@ -17,7 +17,8 @@ import {
   NO_OWNER,
   NO_REPO,
   NO_RESULT,
-  SPELLING_ERROR,
+  SPELLING_ERROR_REPO,
+  SPELLING_ERROR_OWNER,
 } from './src/constants';
 import colors from './src/theme/colors';
 import {ThemeContext} from './src/contexts/ThemeContext';
@@ -107,19 +108,29 @@ const App = () => {
   };
   const handleSearchStarGazers = () => {
     Keyboard.dismiss();
+    if (!owner.present && !repo.present) {
+      setOwner({present: false, error: true});
+      setRepo({present: false, error: true});
+      setMessage(NO_OWNER);
+      return;
+    }
     if (!owner.present) {
-      return setMessage(NO_OWNER);
+      setOwner({present: false, error: true});
+      setMessage(NO_OWNER);
+      return;
     }
     if (!repo.present) {
-      return setMessage(NO_REPO);
+      setRepo({present: false, error: true});
+      setMessage(NO_REPO);
+      return;
     }
     if (!/^[A-Za-z0-9._/-]+$/.test(ownerRef?.current)) {
       setOwner({...owner, error: true});
-      return setMessage(SPELLING_ERROR);
+      return setMessage(SPELLING_ERROR_OWNER);
     }
     if (!/^[A-Za-z0-9._/-]+$/.test(repoRef?.current)) {
       setRepo({...repo, error: true});
-      return setMessage(SPELLING_ERROR);
+      return setMessage(SPELLING_ERROR_REPO);
     }
     // owner of repo contains chars not allowed by Github
     // if (

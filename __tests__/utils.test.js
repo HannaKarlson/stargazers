@@ -58,13 +58,21 @@ describe('getMessageContent', () => {
     };
     expect(getMessageContent(constants.API_RATE_EXCEEDED)).toEqual(expected);
   });
-  it('should return correct message content when there is a spelling error', () => {
+  it('should return correct message content when there is a spelling error in user name', () => {
     const expected = {
       header: 'Spelling error',
-      text: 'It seems that you have used a character that is not allowed for github repos. Allowed charachters are letters(a-Z), numbers, dash(-), underscore(_) and dot(.)',
+      text: 'It seems that you have used a character that is not allowed for github account names. Allowed charachters are letters(a-Z), numbers, dash(-), underscore(_) and dot(.)',
       animation: typo,
     };
-    expect(getMessageContent(constants.SPELLING_ERROR)).toEqual(expected);
+    expect(getMessageContent(constants.SPELLING_ERROR_OWNER)).toEqual(expected);
+  });
+  it('should return correct message content when there is a spelling error in repo name', () => {
+    const expected = {
+      header: 'Spelling error',
+      text: 'It seems that you have used a character that is not allowed for github repository names. Allowed charachters are letters(a-Z), numbers, dash(-), underscore(_) and dot(.)',
+      animation: typo,
+    };
+    expect(getMessageContent(constants.SPELLING_ERROR_REPO)).toEqual(expected);
   });
   it('should return correct message content for generic error', () => {
     const expected = {
