@@ -9,7 +9,9 @@ const AppInput = ({icon, ...props}) => {
   const {iconColor, buttonColor, text} = getThemeColors(colorMode);
 
   return (
-    <View style={[styles.container, {backgroundColor: buttonColor}]}>
+    <View
+      testID="app-input"
+      style={[styles.container, {backgroundColor: buttonColor}]}>
       {icon && (
         <FontAwesomeIcon icon={icon} testID={icon.iconName} color={iconColor} />
       )}

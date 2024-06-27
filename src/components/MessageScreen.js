@@ -5,18 +5,18 @@ import {getMessageContent} from '../utils';
 import {AppHeader, AppText} from './AppText';
 
 const deviceWidth = Dimensions.get('window').width;
+const dismissKeyboard = () => Keyboard.dismiss();
 
 const MessageScreen = ({message}) => {
   const {header, text, animation} = getMessageContent(message);
 
   return (
-    <Pressable onPress={() => Keyboard.dismiss()}>
+    <Pressable onPress={dismissKeyboard}>
       <View style={styles.container}>
         <AppHeader>{header}</AppHeader>
         <AppText style={styles.text}>{text}</AppText>
       </View>
-
-      <AnimationView animation={animation} />
+      <AnimationView testID={`${header}-animation`} animation={animation} />
     </Pressable>
   );
 };

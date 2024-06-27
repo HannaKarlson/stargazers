@@ -4,8 +4,8 @@ import LottieView from 'lottie-react-native';
 
 const deviceWidth = Dimensions.get('window').width;
 
-const AnimationView = ({animation}) => (
-  <View style={styles.container}>
+const AnimationView = ({animation, testID}) => (
+  <View testID={testID} style={styles.container}>
     <LottieView style={styles.lottieView} source={animation} autoPlay loop />
   </View>
 );

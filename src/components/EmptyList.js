@@ -7,7 +7,7 @@ import empty from '../../assets/empty.json';
 const EmptyList = () => (
   <View>
     <AppText>This repository does not have any stars</AppText>
-    <AnimationView animation={empty} />
+    <AnimationView testID="empty-animation" animation={empty} />
   </View>
 );
 

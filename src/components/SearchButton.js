@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass';
+import {faMagnifyingGlass as icon} from '@fortawesome/free-solid-svg-icons/faMagnifyingGlass';
 import colors from '../theme/colors';
 import {ThemeContext} from '../contexts/ThemeContext';
 import {getThemeColors} from '../utils';
@@ -13,9 +13,15 @@ const SearchButton = ({onPress, validSearch}) => {
   const searchIconColor = validSearch ? colors.white : iconColor;
   return (
     <TouchableOpacity
+      testID="search-button"
+      accessibilityRole="button"
       onPress={onPress}
       style={[styles.button, {backgroundColor: backgroundColor}]}>
-      <FontAwesomeIcon icon={faMagnifyingGlass} color={searchIconColor} />
+      <FontAwesomeIcon
+        testID={icon.iconName}
+        icon={icon}
+        color={searchIconColor}
+      />
     </TouchableOpacity>
   );
 };

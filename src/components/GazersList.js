@@ -27,6 +27,7 @@ const renderListFooter = loadMoreIsLoading => () => {
 const GazersList = ({gazers, loadMoreElements, loadMoreIsLoading}) => {
   return (
     <FlatList
+      testID="gazers-list"
       style={styles.flatList}
       contentContainerStyle={styles.contentContaier}
       data={gazers}
