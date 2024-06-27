@@ -1,13 +1,13 @@
 import React from 'react';
 import {View, StyleSheet, Dimensions, Pressable, Keyboard} from 'react-native';
 import AnimationView from './AnimationView';
-import {getMessageText} from '../utils';
+import {getMessageContent} from '../utils';
 import {AppHeader, AppText} from './AppText';
 
 const deviceWidth = Dimensions.get('window').width;
 
 const MessageScreen = ({message}) => {
-  const {header, text, animation} = getMessageText(message);
+  const {header, text, animation} = getMessageContent(message);
 
   return (
     <Pressable onPress={() => Keyboard.dismiss()}>

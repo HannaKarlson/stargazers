@@ -102,7 +102,6 @@ const App = () => {
       />
     );
   };
-  console.log({repo});
   return (
     <ThemeContext.Provider value={colorScheme}>
       <SafeAreaView style={backgroundStyle}>

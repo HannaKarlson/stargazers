@@ -15,7 +15,7 @@ import missingInformation from '../assets/missingInfo.json';
 import wait from '../assets/wait.json';
 import error from '../assets/error.json';
 
-export const getMessageText = message => {
+export const getMessageContent = message => {
   switch (message) {
     case NO_SEARCH: {
       return {

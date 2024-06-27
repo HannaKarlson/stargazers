@@ -9,7 +9,6 @@ import {
 } from './constants';
 
 const switchErrorStatus = status => {
-  console.log(status);
   switch (status) {
     case 404:
       return NO_RESULT;
@@ -22,12 +21,17 @@ const switchErrorStatus = status => {
 
 export const getStarGazers = async ({user, repo, url}) => {
   let nextUrl = null;
+  if (!url && (!user || !repo)) {
+    return null;
+  }
+  // if url is provided more data is loaded for the same repo
   const composedString = url ? url : `${BASE_URL}/${user}/${repo}/stargazers`;
   try {
     const response = await axios.get(composedString);
-    const linkHeader = response.headers.link;
+    const linkHeader = response.headers?.link;
     if (linkHeader && linkHeader.includes('rel="next"') && response.data) {
-      nextUrl = linkHeader.match(nextPattern)[0];
+      nextUrl =
+        linkHeader.match(nextPattern) && linkHeader.match(nextPattern)[0];
       return {data: response.data, nextUrl: nextUrl};
     }
     return {data: response.data, nextUrl: nextUrl};

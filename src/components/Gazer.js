@@ -22,7 +22,7 @@ const Gazer = ({item}) => {
 
 export default Gazer;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   avatar: {
     height: 50,
     width: 50,

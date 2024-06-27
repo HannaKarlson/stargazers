@@ -3,7 +3,6 @@ import {TextInput, View, StyleSheet} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {ThemeContext} from '../contexts/ThemeContext';
 import {getThemeColors} from '../utils';
-// trim input
 
 const AppInput = ({icon, ...props}) => {
   const colorMode = useContext(ThemeContext);
@@ -11,11 +10,14 @@ const AppInput = ({icon, ...props}) => {
 
   return (
     <View style={[styles.container, {backgroundColor: buttonColor}]}>
-      {icon && <FontAwesomeIcon icon={icon} color={iconColor} />}
+      {icon && (
+        <FontAwesomeIcon icon={icon} testID={icon.iconName} color={iconColor} />
+      )}
       <TextInput
         {...props}
         style={[styles.input, {color: text}]}
         placeholderTextColor={iconColor}
+        showSoftInputOnFocus={true}
       />
     </View>
   );
