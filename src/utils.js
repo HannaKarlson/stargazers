@@ -5,6 +5,7 @@ import {
   NO_RESULT,
   API_RATE_EXCEEDED,
   NETWORK_ERROR,
+  SPELLING_ERROR,
   GENERIC_ERROR,
 } from './constants';
 import colors from './theme/colors';
@@ -14,6 +15,7 @@ import networkError from '../assets/networkError.json';
 import missingInformation from '../assets/missingInfo.json';
 import wait from '../assets/wait.json';
 import error from '../assets/error.json';
+import typo from '../assets/typo.json';
 
 export const getMessageContent = message => {
   switch (message) {
@@ -22,6 +24,13 @@ export const getMessageContent = message => {
         header: 'Welcome to Stargazer',
         text: 'To search the list of Stargazers for a github repository just enter the owner and the name of the repository.',
         animation: welcome,
+      };
+    }
+    case SPELLING_ERROR: {
+      return {
+        header: 'Spelling error',
+        text: 'It seems that you have used a character that is not allowed for github repos. Allowed charachters are alphanumerics, dash(-), underscore(_) and dot(.)',
+        animation: typo,
       };
     }
     case NETWORK_ERROR: {

@@ -6,6 +6,7 @@ import networkError from '../assets/networkError.json';
 import missingInformation from '../assets/missingInfo.json';
 import wait from '../assets/wait.json';
 import error from '../assets/error.json';
+import typo from '../assets/typo.json';
 import colors from '../src/theme/colors';
 
 describe('getMessageContent', () => {
@@ -56,6 +57,14 @@ describe('getMessageContent', () => {
       animation: wait,
     };
     expect(getMessageContent(constants.API_RATE_EXCEEDED)).toEqual(expected);
+  });
+  it('should return correct message content when there is a spelling error', () => {
+    const expected = {
+      header: 'Spelling error',
+      text: 'It seems that you have used a character that is not allowed for github repos. Allowed charachters are alphanumerics, dash(-), underscore(_) and dot(.)',
+      animation: typo,
+    };
+    expect(getMessageContent(constants.SPELLING_ERROR)).toEqual(expected);
   });
   it('should return correct message content for generic error', () => {
     const expected = {

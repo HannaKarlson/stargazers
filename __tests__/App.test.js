@@ -116,7 +116,7 @@ describe('App', () => {
     act(() => fireEvent.changeText(repoInput, 'princess-warior'));
     act(() => fireEvent.press(searchButton));
     await waitFor(() => screen.getByTestId('message-screen'));
-    await waitFor(() => screen.getByText('Repository not found'));
+    await waitFor(() => screen.getByText('Spelling error'));
   });
   it('should render message screen with correct content when non allowed chars are used in repo input', async () => {
     render(<App />);
@@ -127,7 +127,7 @@ describe('App', () => {
     act(() => fireEvent.changeText(repoInput, 'princess=warior'));
     act(() => fireEvent.press(searchButton));
     await waitFor(() => screen.getByTestId('message-screen'));
-    await waitFor(() => screen.getByText('Repository not found'));
+    await waitFor(() => screen.getByText('Spelling error'));
   });
   it('should render message screen with correct content when user makes a search without providing owner name', async () => {
     render(<App />);

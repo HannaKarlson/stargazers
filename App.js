@@ -12,7 +12,13 @@ import GazersList from './src/components/GazersList';
 import {getStarGazers} from './src/services';
 import LoadingSkeleton from './src/components/LoadingSkeleton';
 import MessageScreen from './src/components/MessageScreen';
-import {NO_SEARCH, NO_OWNER, NO_REPO, NO_RESULT} from './src/constants';
+import {
+  NO_SEARCH,
+  NO_OWNER,
+  NO_REPO,
+  NO_RESULT,
+  SPELLING_ERROR,
+} from './src/constants';
 import colors from './src/theme/colors';
 import {ThemeContext} from './src/contexts/ThemeContext';
 
@@ -106,7 +112,7 @@ const App = () => {
       !/^[A-Za-z0-9._/-]+$/.test(ownerRef?.current) ||
       !/^[A-Za-z0-9._/-]+$/.test(repoRef?.current)
     ) {
-      return setMessage(NO_RESULT);
+      return setMessage(SPELLING_ERROR);
     }
     fetchStarGazers();
   };
