@@ -7,7 +7,7 @@ import SearchButton from './SearchButton';
 
 const Header = ({onChangeOwner, onChangeRepo, onSearch, validSearch}) => {
   return (
-    <View style={styles.container}>
+    <View testID="header" style={styles.container}>
       <AppInput
         autoCapitalize="sentences"
         icon={faUser}

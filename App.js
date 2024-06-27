@@ -78,8 +78,8 @@ const App = () => {
     if (nextUrlRef.current) {
       setLoadMoreIsLoading(true);
       const result = await getStarGazers({
-        user: owner,
-        repo: repo,
+        user: ownerRef.current,
+        repo: repoRef.current,
         url: nextUrlRef.current,
       });
       if (typeof result === 'string') {

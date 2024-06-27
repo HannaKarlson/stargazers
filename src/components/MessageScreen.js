@@ -11,7 +11,7 @@ const MessageScreen = ({message}) => {
   const {header, text, animation} = getMessageContent(message);
 
   return (
-    <Pressable onPress={dismissKeyboard}>
+    <Pressable testID="message-screen" onPress={dismissKeyboard}>
       <View style={styles.container}>
         <AppHeader>{header}</AppHeader>
         <AppText style={styles.text}>{text}</AppText>
