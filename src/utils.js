@@ -23,7 +23,7 @@ export const getMessageContent = message => {
     case NO_SEARCH: {
       return {
         header: 'Welcome to Stargazers',
-        text: 'To search the list of Stargazers for a github repository just enter the owner and the name of the repository.',
+        text: 'To search the list of Stargazers for a github repository just enter the name of the owner and the name of the repository.',
         animation: welcome,
       };
     }
@@ -44,7 +44,7 @@ export const getMessageContent = message => {
     case NETWORK_ERROR: {
       return {
         header: 'Network error',
-        text: 'It seems that you have weak of no access to the internet. Check  your connection and retry.',
+        text: 'It seems that you have weak of no access to the internet. Check your connection and retry.',
         animation: networkError,
       };
     }
