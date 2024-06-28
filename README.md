@@ -44,7 +44,7 @@ npx react-native run-ios
 
 ### Usage
 
-Type the owner and the name of the github repository in the respective input fields and press the search button (indicated with a magnfying class icon). A search will initially display 30 stargazers. If a repository has more then 30 stargazers simply scroll the list to load more items.
+Type the owner name and the name of the github repository in the respective input fields and press the search button (indicated with a magnfying glass icon). A search will initially display 30 stargazers. If a repository has more then 30 stargazers simply scroll the list to load more items.
 
 ### Validate code 
 
