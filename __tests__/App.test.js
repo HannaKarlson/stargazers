@@ -27,7 +27,7 @@ describe('App', () => {
   it('should render correct message screen when first rendered', () => {
     render(<App />);
     expect(screen.getByTestId('message-screen')).toBeTruthy();
-    expect(screen.getByText('Welcome to Stargazer')).toBeTruthy();
+    expect(screen.getByText('Welcome to Stargazers')).toBeTruthy();
   });
   it('should call loading function with correct parameters and render LoadingSkeleton when data is loading', async () => {
     services.getStarGazers.mockResolvedValueOnce({

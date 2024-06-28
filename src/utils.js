@@ -22,7 +22,7 @@ export const getMessageContent = message => {
   switch (message) {
     case NO_SEARCH: {
       return {
-        header: 'Welcome to Stargazer',
+        header: 'Welcome to Stargazers',
         text: 'To search the list of Stargazers for a github repository just enter the owner and the name of the repository.',
         animation: welcome,
       };

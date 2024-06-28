@@ -12,7 +12,7 @@ import colors from '../src/theme/colors';
 describe('getMessageContent', () => {
   it('should return correct message content when no search has been made', () => {
     const expected = {
-      header: 'Welcome to Stargazer',
+      header: 'Welcome to Stargazers',
       text: 'To search the list of Stargazers for a github repository just enter the owner and the name of the repository.',
       animation: welcome,
     };
